@@ -25,6 +25,25 @@ def add_link():
     return redirect(url_for("index"))
 
 
+@app.route("/edit/<int:link_index>", methods=["GET", "POST"])
+def edit_link(link_index):
+    if not 0 <= link_index < len(links):
+        return redirect(url_for("index"))
+
+    link = links[link_index]
+
+    if request.method == "POST":
+        site_name = request.form.get("site_name", "").strip()
+        url = request.form.get("url", "").strip()
+
+        if site_name and url:
+            link.update({"site_name": site_name, "url": url})
+
+        return redirect(url_for("index"))
+
+    return render_template("edit.html", link=link, link_index=link_index)
+
+
 @app.route("/delete/<int:link_index>", methods=["POST"])
 def delete_link(link_index):
     if 0 <= link_index < len(links):
