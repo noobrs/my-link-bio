@@ -46,6 +46,7 @@ body {
 .site-nav {
   display: flex;
   justify-content: flex-end;
+  gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
@@ -293,9 +294,36 @@ button:hover {
   box-shadow: 0 12px 20px rgba(239, 68, 68, 0.22);
 }
 
-.about-copy {
+.about-copy,
+.contact-message {
   color: var(--muted);
   font-size: 1.05rem;
+}
+
+.contact-card {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.25rem;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.contact-message {
+  margin: 0;
+}
+
+.contact-email {
+  color: var(--primary);
+  font-size: 1.1rem;
+  font-weight: 800;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.contact-email:hover {
+  color: var(--primary-dark);
 }
 
 @media (max-width: 520px) {

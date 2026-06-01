@@ -2,7 +2,7 @@
 
 ### Project Overview
 
-Throughout this course, you build a personal link-in-bio page using OpenAI Codex. Users add their URLs, and the app automatically pulls Open Graph metadata (titles, descriptions, and preview images) to generate rich link cards. The app is built with Python and Flask, uses BeautifulSoup for metadata scraping, and deploys to Render.
+Throughout this course, you build a personal link-in-bio page using OpenAI Codex. Users add their URLs, and the app automatically pulls Open Graph metadata (titles, descriptions, and preview images) to generate rich link cards. The app is built with Python and Flask, uses BeautifulSoup for metadata scraping, and deploys to Render. The app also includes static About and Contact pages so visitors can learn more and find an email address.
 
 This article contains every prompt used in the course, organized by video. You can copy and paste them directly into the Codex web interface at [chatgpt.com/codex](https://chatgpt.com/codex).
 
@@ -13,15 +13,30 @@ This article contains every prompt used in the course, organized by video. You c
 * **Render account** (free tier at render.com)
 * **UptimeRobot account** (free at uptimerobot.com)
 
-### Tech Stack (Handled by Codex)
+### Setup
 
-You do not need to install these yourself. Codex writes all the code and the Codex cloud environment installs dependencies via the setup script.
+Install dependencies and run the Flask app locally:
 
-* Python
+```bash
+pip install -r requirements.txt
+python app.py
+```
+
+### Dependencies
+
+The app depends on these Python packages, which are listed in `requirements.txt`:
+
 * Flask
 * BeautifulSoup
 * Requests
 * Gunicorn
+
+### Features
+
+* Home page at `/` for viewing, adding, editing, and deleting link cards.
+* Open Graph metadata scraping for richer link previews when users add or edit URLs.
+* About page at `/about` with a short profile message.
+* Contact page at `/contact` with a short message and the email address `hello@example.com`.
 
 ---
 
