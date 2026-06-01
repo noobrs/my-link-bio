@@ -1,16 +1,28 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
+
+links = [
+    {"site_name": "OpenAI", "url": "https://openai.com"},
+    {"site_name": "Python", "url": "https://www.python.org"},
+    {"site_name": "Flask", "url": "https://flask.palletsprojects.com"},
+]
 
 
 @app.route("/")
 def index():
-    links = [
-        {"site_name": "OpenAI", "url": "https://openai.com"},
-        {"site_name": "Python", "url": "https://www.python.org"},
-        {"site_name": "Flask", "url": "https://flask.palletsprojects.com"},
-    ]
     return render_template("index.html", links=links)
+
+
+@app.route("/add", methods=["POST"])
+def add_link():
+    site_name = request.form.get("site_name", "").strip()
+    url = request.form.get("url", "").strip()
+
+    if site_name and url:
+        links.append({"site_name": site_name, "url": url})
+
+    return redirect(url_for("index"))
 
 
 @app.route("/about")
