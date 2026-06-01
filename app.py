@@ -2,10 +2,57 @@ from flask import Flask, redirect, render_template, request, url_for
 
 app = Flask(__name__)
 
+NOT_AVAILABLE = "Not Available"
+OG_FIELDS = {
+    "title": "og:title",
+    "description": "og:description",
+    "image_url": "og:image",
+}
+
+
+def get_meta_content(soup, property_name):
+    meta_tag = soup.find("meta", property=property_name)
+    if not meta_tag:
+        return NOT_AVAILABLE
+
+    content = meta_tag.get("content", "").strip()
+    return content or NOT_AVAILABLE
+
+
+def fetch_open_graph_metadata(url):
+    import requests
+    from bs4 import BeautifulSoup
+
+    metadata = {field: NOT_AVAILABLE for field in OG_FIELDS}
+
+    try:
+        response = requests.get(
+            url,
+            headers={"User-Agent": "my-link-bio/1.0"},
+            timeout=5,
+        )
+        response.raise_for_status()
+    except requests.RequestException:
+        # If the page cannot be fetched, every Open Graph field keeps the fallback value.
+        return metadata
+
+    soup = BeautifulSoup(response.text, "html.parser")
+
+    for field, property_name in OG_FIELDS.items():
+        metadata[field] = get_meta_content(soup, property_name)
+
+    return metadata
+
+
+def build_link(site_name, url, metadata=None):
+    metadata = metadata or {field: NOT_AVAILABLE for field in OG_FIELDS}
+    return {"site_name": site_name, "url": url, **metadata}
+
+
 links = [
-    {"site_name": "OpenAI", "url": "https://openai.com"},
-    {"site_name": "Python", "url": "https://www.python.org"},
-    {"site_name": "Flask", "url": "https://flask.palletsprojects.com"},
+    build_link("OpenAI", "https://openai.com"),
+    build_link("Python", "https://www.python.org"),
+    build_link("Flask", "https://flask.palletsprojects.com"),
 ]
 
 
@@ -20,7 +67,8 @@ def add_link():
     url = request.form.get("url", "").strip()
 
     if site_name and url:
-        links.append({"site_name": site_name, "url": url})
+        metadata = fetch_open_graph_metadata(url)
+        links.append(build_link(site_name, url, metadata))
 
     return redirect(url_for("index"))
 
@@ -37,7 +85,8 @@ def edit_link(link_index):
         url = request.form.get("url", "").strip()
 
         if site_name and url:
-            link.update({"site_name": site_name, "url": url})
+            metadata = fetch_open_graph_metadata(url)
+            link.update(build_link(site_name, url, metadata))
 
         return redirect(url_for("index"))
 
