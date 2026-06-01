@@ -183,10 +183,35 @@ button:hover {
   transform: translateY(-2px);
 }
 
+.link-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.edit-button,
 .delete-button {
   padding: 0.65rem 0.9rem;
-  background: #ef4444;
   font-size: 0.9rem;
+}
+
+.edit-button {
+  border-radius: 999px;
+  background: var(--surface-soft);
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.edit-button::after {
+  content: none;
+}
+
+.edit-button:hover {
+  background: var(--border);
+}
+
+.delete-button {
+  background: #ef4444;
 }
 
 .delete-button:hover {
