@@ -1,7 +1,8 @@
 import logging
 import os
+from datetime import datetime, timezone
 
-from flask import Flask, flash, redirect, render_template, request, url_for
+from flask import Flask, flash, jsonify, redirect, render_template, request, url_for
 
 logging.basicConfig(level=logging.INFO)
 
@@ -115,6 +116,18 @@ def delete_link(link_index):
         links.pop(link_index)
 
     return redirect(url_for("index"))
+
+
+@app.route("/health")
+def health_check():
+    try:
+        return jsonify(
+            status="ok",
+            server_time=datetime.now(timezone.utc).isoformat(),
+        ), 200
+    except Exception as error:
+        logging.exception("Health check failed: %s", error)
+        return jsonify(status="error"), 500
 
 
 @app.route("/about")
