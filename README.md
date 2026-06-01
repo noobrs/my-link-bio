@@ -38,6 +38,7 @@ The app depends on these Python packages, which are listed in `requirements.txt`
 * Warning feedback and distinct card styling when a saved URL does not return preview metadata.
 * About page at `/about` with a short profile message.
 * Contact page at `/contact` with a short message and the email address `hello@example.com`.
+* Health check endpoint at `/health` that returns JSON status and the current server time for uptime monitoring.
 
 ---
 
