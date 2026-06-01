@@ -1,4 +1,8 @@
+import logging
+
 from flask import Flask, redirect, render_template, request, url_for
+
+logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
 
@@ -32,7 +36,8 @@ def fetch_open_graph_metadata(url):
             timeout=5,
         )
         response.raise_for_status()
-    except requests.RequestException:
+    except requests.RequestException as error:
+        logging.warning("Failed to fetch Open Graph data for %s: %s", url, error)
         # If the page cannot be fetched, every Open Graph field keeps the fallback value.
         return metadata
 
@@ -68,7 +73,11 @@ def add_link():
 
     if site_name and url:
         metadata = fetch_open_graph_metadata(url)
+        if all(value == NOT_AVAILABLE for value in metadata.values()):
+            logging.warning("Metadata could not be retrieved for %s", url)
+
         links.append(build_link(site_name, url, metadata))
+        logging.info("Added new link for %s: %s", site_name, url)
 
     return redirect(url_for("index"))
 
