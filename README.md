@@ -35,6 +35,7 @@ The app depends on these Python packages, which are listed in `requirements.txt`
 
 * Home page at `/` for viewing, adding, editing, and deleting link cards.
 * Open Graph metadata scraping for richer link previews when users add or edit URLs.
+* Warning feedback and distinct card styling when a saved URL does not return preview metadata.
 * About page at `/about` with a short profile message.
 * Contact page at `/contact` with a short message and the email address `hello@example.com`.
 
