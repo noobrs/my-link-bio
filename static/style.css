@@ -185,6 +185,43 @@ button:hover {
   color: var(--primary);
 }
 
+.rich-link-card {
+  overflow: hidden;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 0.9rem;
+}
+
+.rich-link-image {
+  display: block;
+  width: 100%;
+  max-height: 16rem;
+  object-fit: cover;
+}
+
+.rich-link-content {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1rem;
+}
+
+.rich-link-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.rich-link-description {
+  margin: 0;
+  color: var(--muted);
+}
+
+.rich-link-url {
+  margin-top: 0.25rem;
+  overflow-wrap: anywhere;
+}
+
 .metadata-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
