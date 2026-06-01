@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Internal Server Error</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="card-panel">
+        <a class="back-link" href="{{ url_for('index') }}">← Back to links</a>
+        <header class="hero">
+          <p class="eyebrow">500 error</p>
+          <h1>Something Went Wrong</h1>
+          <p class="subtitle">The app hit an unexpected problem. Please return to the links and try again.</p>
+        </header>
+      </section>
+    </main>
+  </body>
+</html>
