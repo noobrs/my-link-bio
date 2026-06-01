@@ -2,26 +2,43 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>My Links</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <nav>
-      <a href="/about">About</a>
-    </nav>
-    <h1>My Links</h1>
-    <form action="/add" method="post">
-      <label for="site_name">Site Name</label>
-      <input type="text" id="site_name" name="site_name" required>
+    <main class="page-shell">
+      <section class="card-panel">
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="/about">About</a>
+        </nav>
 
-      <label for="url">URL</label>
-      <input type="url" id="url" name="url" required>
+        <header class="hero">
+          <p class="eyebrow">Link in bio</p>
+          <h1>My Links</h1>
+          <p class="subtitle">A simple collection of favorite places, projects, and resources.</p>
+        </header>
 
-      <button type="submit">Add Link</button>
-    </form>
-    <ul>
-      {% for link in links %}
-      <li><a href="{{ link.url }}">{{ link.site_name }}</a></li>
-      {% endfor %}
-    </ul>
+        <form class="link-form" action="/add" method="post">
+          <div class="form-field">
+            <label for="site_name">Site Name</label>
+            <input type="text" id="site_name" name="site_name" placeholder="OpenAI" required>
+          </div>
+
+          <div class="form-field">
+            <label for="url">URL</label>
+            <input type="url" id="url" name="url" placeholder="https://example.com" required>
+          </div>
+
+          <button type="submit">Add Link</button>
+        </form>
+
+        <ul class="link-list">
+          {% for link in links %}
+          <li class="link-card"><a href="{{ link.url }}">{{ link.site_name }}</a></li>
+          {% endfor %}
+        </ul>
+      </section>
+    </main>
   </body>
 </html>

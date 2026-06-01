@@ -2,10 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
-    <h1>About</h1>
-    <p>This is my personal link page.</p>
+    <main class="page-shell">
+      <section class="card-panel">
+        <a class="back-link" href="/">← Back to links</a>
+        <header class="hero">
+          <p class="eyebrow">About</p>
+          <h1>About</h1>
+        </header>
+        <p class="about-copy">This is my personal link page.</p>
+      </section>
+    </main>
   </body>
 </html>
