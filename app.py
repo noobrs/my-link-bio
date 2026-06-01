@@ -1,10 +1,12 @@
 import logging
+import os
 
-from flask import Flask, redirect, render_template, request, url_for
+from flask import Flask, flash, redirect, render_template, request, url_for
 
 logging.basicConfig(level=logging.INFO)
 
 app = Flask(__name__)
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-link-bio-secret")
 
 NOT_AVAILABLE = "Not Available"
 OG_FIELDS = {
@@ -49,6 +51,10 @@ def fetch_open_graph_metadata(url):
     return metadata
 
 
+def is_metadata_missing(metadata):
+    return all(metadata.get(field) == NOT_AVAILABLE for field in OG_FIELDS)
+
+
 def build_link(site_name, url, metadata=None):
     metadata = metadata or {field: NOT_AVAILABLE for field in OG_FIELDS}
     return {"site_name": site_name, "url": url, **metadata}
@@ -73,8 +79,9 @@ def add_link():
 
     if site_name and url:
         metadata = fetch_open_graph_metadata(url)
-        if all(value == NOT_AVAILABLE for value in metadata.values()):
+        if is_metadata_missing(metadata):
             logging.warning("Metadata could not be retrieved for %s", url)
+            flash("We saved your link but could not retrieve a preview for that URL.", "warning")
 
         links.append(build_link(site_name, url, metadata))
         logging.info("Added new link for %s: %s", site_name, url)

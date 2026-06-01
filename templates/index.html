@@ -20,6 +20,16 @@
           <p class="subtitle">A simple collection of favorite places, projects, and resources.</p>
         </header>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-messages" role="status" aria-live="polite">
+          {% for category, message in messages %}
+          <p class="flash-message flash-message--{{ category }}">{{ message }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
         <form class="link-form" action="/add" method="post">
           <div class="form-field">
             <label for="site_name">Site Name</label>
@@ -40,7 +50,7 @@
           {% set has_description = link.description and link.description != 'Not Available' %}
           {% set has_image = link.image_url and link.image_url != 'Not Available' %}
           {% set has_rich_details = has_title or has_description or has_image %}
-          <li class="link-card">
+          <li class="link-card {{ 'link-card--full-preview' if has_rich_details else 'link-card--missing-preview' }}">
             <div class="link-main">
               {% if has_rich_details %}
               <article class="rich-link-card" aria-label="Details for {{ link.site_name }}">
@@ -56,7 +66,10 @@
                 </div>
               </article>
               {% else %}
-              <a class="link-name" href="{{ link.url }}">{{ link.site_name }}</a>
+              <div class="missing-preview-header">
+                <a class="link-name" href="{{ link.url }}">{{ link.site_name }}</a>
+                <span class="missing-preview-badge">Preview unavailable</span>
+              </div>
               <div class="metadata-grid" aria-label="Open Graph details for {{ link.site_name }}">
                 <div class="metadata-column">
                   <span class="metadata-label">Title</span>
